@@ -3,7 +3,13 @@ set -euo pipefail
 
 pid_file="/tmp/weekend-tunnel.pid"
 log_file="/tmp/weekend-tunnel.log"
-kubectl_bin="${KUBECTL_BIN:-kubectl}"
+if [[ -n "${KUBECTL_BIN:-}" ]]; then
+  kubectl_bin="$KUBECTL_BIN"
+elif [[ -x /Users/fmbah/.local/bin/kubectl ]]; then
+  kubectl_bin=/Users/fmbah/.local/bin/kubectl
+else
+  kubectl_bin=kubectl
+fi
 
 start() {
   if [[ -f "$pid_file" ]] && sudo kill -0 "$(<"$pid_file")" 2>/dev/null; then
