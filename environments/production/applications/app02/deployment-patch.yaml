@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app02-compute
+  namespace: app02-weekend-com
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: app02
+          image: ghcr.io/phelun/weekend-app02:dd42f974ad1d45996ec2a0f855c6b22a5ddc6c15

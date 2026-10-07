@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app03
+  namespace: app03-weekend-com
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: app03
+          image: ghcr.io/phelun/weekend-app03:7f09745539d320eeee3a181b4ebcf73e9547d338

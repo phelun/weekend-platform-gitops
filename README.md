@@ -4,11 +4,13 @@ Desired state for two local Kind clusters. `weekend-lab` is development and incl
 
 ## Layout
 
-- `clusters/weekend-lab`: Flux entry point and reconciliation ordering
+- `clusters/weekend-lab`: development Flux entry point and reconciliation ordering
 - `clusters/weekend-production`: production Flux entry point and reconciliation ordering
-- `infrastructure`: Helm sources/releases for NGINX Ingress, monitoring, and Istio
-- `applications`: Kustomize resources for App01, App02, and App03
-- `environments/production`: lightweight production infrastructure and applications
+- `applications/base`: shared Namespaces, Deployments, Services, and Ingress resources
+- `environments/dev/applications`: development image, replica, hostname, and Istio overlays
+- `environments/production/applications`: production image, replica, and hostname overlays
+- `infrastructure`: development Helm sources/releases for NGINX Ingress and monitoring
+- `environments/production/infrastructure`: lightweight production ingress infrastructure
 - `kind`: reproducible Kind cluster definitions
 - `scripts`: local validation and tunnel helpers
 
@@ -34,3 +36,17 @@ flux bootstrap github \
 ```
 
 The existing App03 plaintext secret is deliberately excluded. Add it in the hardening phase as a SOPS/Age-encrypted Secret.
+
+## Application promotion paths
+
+Application repositories promote immutable image SHAs into the development
+overlay:
+
+```text
+environments/dev/applications/<app>/deployment-patch.yaml
+```
+
+Production has independent image patches under
+`environments/production/applications`. Promoting a tested development image to
+production therefore changes only the production patch; shared workload
+configuration remains in `applications/base`.

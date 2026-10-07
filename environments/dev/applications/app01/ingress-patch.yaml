@@ -2,8 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app01-ingress
+  namespace: app01-weekend-com
 spec:
-  ingressClassName: nginx
   rules:
     - host: app01.weekend.com
       http:
