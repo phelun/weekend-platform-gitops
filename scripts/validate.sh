@@ -10,14 +10,14 @@ fi
 
 kustomize build "$repo_root/infrastructure" >/dev/null
 kustomize build "$repo_root/applications/base" >/dev/null
-kustomize build "$repo_root/environments/dev/applications" >/dev/null
+kustomize build "$repo_root/applications/overlays/dev" >/dev/null
 kustomize build "$repo_root/clusters/weekend-lab" >/dev/null
 kustomize build "$repo_root/environments/production/infrastructure" >/dev/null
-kustomize build "$repo_root/environments/production/applications" >/dev/null
+kustomize build "$repo_root/applications/overlays/production" >/dev/null
 kustomize build "$repo_root/clusters/weekend-production" >/dev/null
 
 for environment in dev production; do
-  render="$(kustomize build "$repo_root/environments/$environment/applications")"
+  render="$(kustomize build "$repo_root/applications/overlays/$environment")"
   for namespace in app01-weekend-com app02-weekend-com app03-weekend-com; do
     if ! grep -q "namespace: $namespace" <<<"$render"; then
       echo "$environment resources missing namespace $namespace" >&2
@@ -36,8 +36,8 @@ if command -v yamllint >/dev/null 2>&1; then
     -d '{extends: default, rules: {line-length: disable, document-start: disable}}' \
     "$repo_root/applications/base" \
     "$repo_root/infrastructure" \
-    "$repo_root/environments/dev" \
-    "$repo_root/environments/production" \
+    "$repo_root/applications/overlays" \
+    "$repo_root/environments/production/infrastructure" \
     "$repo_root/clusters/weekend-lab/kustomization.yaml" \
     "$repo_root/clusters/weekend-lab/applications.yaml" \
     "$repo_root/clusters/weekend-lab/infrastructure.yaml" \
