@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: app03
-          image: ghcr.io/phelun/weekend-app03:5180c893778ff193152a4c545a6bf907bd8f1972
+          image: ghcr.io/phelun/weekend-app03:c4735f911f9743a04e9fa42ec5e481ee9bc2462b
           ports:
             - name: http
               containerPort: 8080
