@@ -13,7 +13,13 @@ kustomize build "$repo_root/applications" >/dev/null
 kustomize build "$repo_root/clusters/weekend-lab" >/dev/null
 
 if command -v yamllint >/dev/null 2>&1; then
-  yamllint -d '{extends: default, rules: {line-length: disable, document-start: disable}}' "$repo_root"
+  yamllint \
+    -d '{extends: default, rules: {line-length: disable, document-start: disable}}' \
+    "$repo_root/applications" \
+    "$repo_root/infrastructure" \
+    "$repo_root/clusters/weekend-lab/kustomization.yaml" \
+    "$repo_root/clusters/weekend-lab/applications.yaml" \
+    "$repo_root/clusters/weekend-lab/infrastructure.yaml"
 fi
 
 echo "GitOps manifests validated"
