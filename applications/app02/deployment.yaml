@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app02-compute
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app02-compute
+  template:
+    metadata:
+      labels:
+        app: app02-compute
+    spec:
+      containers:
+        - name: app02
+          image: ghcr.io/phelun/weekend-app02:a5d07586ec3b0def5436741a75aafa7ea456f745
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
