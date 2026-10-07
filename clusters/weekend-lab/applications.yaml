@@ -4,6 +4,7 @@ metadata:
   name: applications
   namespace: flux-system
 spec:
+  suspend: true
   dependsOn:
     - name: infrastructure
   interval: 10m
