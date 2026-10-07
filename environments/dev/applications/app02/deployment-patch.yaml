@@ -9,4 +9,4 @@ spec:
     spec:
       containers:
         - name: app02
-          image: ghcr.io/phelun/weekend-app02:dd42f974ad1d45996ec2a0f855c6b22a5ddc6c15
+          image: ghcr.io/phelun/weekend-app02:bf4a7fb6de9b3ef4007a25d84afacf9bc57ccf94
