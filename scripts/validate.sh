@@ -15,6 +15,14 @@ kustomize build "$repo_root/environments/production/infrastructure" >/dev/null
 kustomize build "$repo_root/environments/production/applications" >/dev/null
 kustomize build "$repo_root/clusters/weekend-production" >/dev/null
 
+production_render="$(kustomize build "$repo_root/environments/production/applications")"
+for namespace in app01-weekend-com app02-weekend-com app03-weekend-com; do
+  if ! grep -q "namespace: $namespace" <<<"$production_render"; then
+    echo "production resources missing namespace $namespace" >&2
+    exit 1
+  fi
+done
+
 if command -v yamllint >/dev/null 2>&1; then
   yamllint \
     -d '{extends: default, rules: {line-length: disable, document-start: disable}}' \
@@ -24,7 +32,9 @@ if command -v yamllint >/dev/null 2>&1; then
     "$repo_root/clusters/weekend-lab/kustomization.yaml" \
     "$repo_root/clusters/weekend-lab/applications.yaml" \
     "$repo_root/clusters/weekend-lab/infrastructure.yaml" \
-    "$repo_root/clusters/weekend-production"
+    "$repo_root/clusters/weekend-production/kustomization.yaml" \
+    "$repo_root/clusters/weekend-production/applications.yaml" \
+    "$repo_root/clusters/weekend-production/infrastructure.yaml"
 fi
 
 echo "GitOps manifests validated"
