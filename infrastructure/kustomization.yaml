@@ -4,4 +4,3 @@ resources:
   - sources
   - ingress-nginx
   - monitoring
-  - istio
