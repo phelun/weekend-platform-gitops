@@ -33,6 +33,8 @@ spec:
   values:
     controller:
       replicaCount: 1
+      config:
+        worker-processes: "2"
       service:
         type: NodePort
         nodePorts:
