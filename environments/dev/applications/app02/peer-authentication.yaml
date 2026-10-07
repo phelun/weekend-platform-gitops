@@ -2,6 +2,7 @@ apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: app-ingress-compatible
+  namespace: app02-weekend-com
 spec:
   mtls:
     mode: PERMISSIVE

@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: app01.prod.weekend.com
+    - host: app01.example.invalid
       http:
         paths:
           - path: /
